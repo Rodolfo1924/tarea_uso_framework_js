@@ -99,7 +99,7 @@
 
       /* --- Crear suelo invisible (colisión) --- */
       this.ground = this.physics.add.staticImage(WIDTH / 2, HEIGHT - 32, 'ground');
-      this.ground.visible = true; // No se muestra, solo sirve como límite inferior
+      this.ground.visible = false; // No se muestra, solo sirve como límite inferior
 
       /* --- Grupo de tubos --- */
       this.pipes = this.physics.add.group();
@@ -258,5 +258,6 @@
   </script>
 </body>
 </html>
+
 
 
