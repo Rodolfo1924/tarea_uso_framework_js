@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia de Harry Potter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            color: #e0e0e0;
+        }
+        header {
+            background-color: #0f0e29;
+            color: #ffd700;
+            text-align: center;
+            padding: 2em;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 2px solid #ffd700;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        nav {
+            background-color: #2b3a67;
+            padding: 1em;
+            border-bottom: 1px solid #4a5d8c;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-toggle {
+            margin-left: 10px;
+            background-color: #2b3a67;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .menu-toggle:hover {
+            background-color: #ffd700;
+            color: #0f0e29;
+        }
+        .article-description {
+            flex-grow: 1;
+            text-align: center;
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+        nav ul {
+            display: none;
+            list-style-type: none;
+            padding: 10px;
+            margin: 10px 0 0 0;
+            background-color: #1a1a2e;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            position: absolute;
+            top: 100%;
+            left: 10px;
+            width: 200px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        nav ul.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        nav ul li {
+            margin: 10px 0;
+            text-align: center;
+        }
+        nav ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 8px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #ffd700;
+            background-color: #2b3a67;
+            box-shadow: 0 0 8px #ffd700;
+        }
+        nav ul li a.active {
+            color: #ffd700;
+            background-color: #2b3a67;
+            border: 1px solid #ffd700;
+        }
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #2a2a4a;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        figure {
+            text-align: center;
+            margin: 0 0 20px 0;
+        }
+        img {
+            max-width: 100%;
+            width: 600px;
+            height: auto;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+        }
+        figcaption {
+            font-style: italic;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+        h2 {
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 1px solid #4a5d8c;
+            padding-bottom: 5px;
+        }
+        p {
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5em;
+            background-color: #0f0e29;
+            color: #e0e0e0;
+            border-top: 2px solid #ffd700;
+        }
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                width: 80%;
+                max-width: 300px;
+            }
+            img {
+                width: 100%;
+                max-width: 400px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            .article-description {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Historia de Harry Potter</h1>
+    </header>
+
+    <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <span class="article-description">Artículo 2: Orígenes y evolución de la saga Harry Potter</span>
+        <ul id="nav-menu">
+            <li><a href="index_articulo1.html">Introducción</a></li>
+            <li><a href="historia_articulo2.html" class="active">Historia</a></li>
+            <li><a href="caracteristicas_articulo3.html">Características Clave</a></li>
+            <li><a href="imagenes_articulo4.html">Imágenes</a></li>
+            <li><a href="tablas_articulo5.html">Tablas</a></li>
+            <li><a href="formularios_articulo6.html">Formularios</a></li>
+            <li><a href="multimedia_articulo7.html">Multimedia</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <figure>
+            <img src="https://th.bing.com/th/id/R.827ddb380356209f77b2d1021cf8760d?rik=e4dZ2bbPDGbcSg&pid=ImgRaw&r=0" alt="Libro de Harry Potter" width="600">
+            <figcaption>Primer libro de la saga Harry Potter, iniciando un fenómeno global.</figcaption>
+        </figure>
+
+        <section>
+            <h2>Orígenes de la Saga</h2>
+            <p>La historia de *Harry Potter* comenzó en 1990, cuando J.K. Rowling tuvo la idea de un joven mago mientras viajaba en un tren de Manchester a Londres. La primera novela, *Harry Potter y la Piedra Filosofal*, se publicó en 1997 tras varios rechazos editoriales. Este libro introdujo a Harry, un huérfano que descubre en su undécimo cumpleaños que es un mago y es invitado a estudiar en el Colegio Hogwarts de Magia y Hechicería.</p>
+
+            <p>La saga creció a siete libros, cada uno siguiendo un año en la vida de Harry y sus amigos, Ron Weasley y Hermione Granger. Los libros combinan elementos de fantasía, misterio y aventuras, mientras exploran temas como el crecimiento, la amistad y la lucha contra el mal, personificado por el mago oscuro Voldemort.</p>
+
+            <h2>Evolución de la Saga</h2>
+            <p>Tras el éxito del primer libro, la serie se expandió rápidamente. Las novelas fueron adaptadas a ocho películas entre 2001 y 2011, dirigidas por cineastas como Chris Columbus y David Yates. Las películas llevaron el mundo mágico a una audiencia global, con actores como Daniel Radcliffe, Emma Watson y Rupert Grint dando vida a los personajes principales.</p>
+
+            <p>Además, la franquicia creció con obras derivadas como *Animales Fantásticos y Dónde Encontrarlos*, parques temáticos, videojuegos como *Hogwarts Legacy*, y la plataforma *Wizarding World*, que permite a los fans explorar el universo interactivamente.</p>
+
+            <h2>Impacto Cultural</h2>
+            <p>*Harry Potter* no solo marcó la literatura y el cine, sino también la cultura popular. Los libros han vendido más de 500 millones de copias y han sido traducidos a más de 80 idiomas. Según un estudio de la Universidad de Cambridge, la saga ha influido en la empatía de sus lectores hacia temas sociales. La comunidad global de fans organiza eventos como torneos de Quidditch y convenciones, manteniendo viva la magia.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Creado Por Myrka N. Salazar Morales | 2025</p>
+        <p>Fuentes: <a href="https://www.wizardingworld.com">Wizarding World</a>, <a href="https://www.cam.ac.uk">Universidad de Cambridge</a></p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

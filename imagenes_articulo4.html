@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imágenes de Harry Potter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            color: #e0e0e0;
+        }
+        header {
+            background-color: #0f0e29;
+            color: #ffd700;
+            text-align: center;
+            padding: 2em;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 2px solid #ffd700;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        nav {
+            background-color: #2b3a67;
+            padding: 1em;
+            border-bottom: 1px solid #4a5d8c;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-toggle {
+            margin-left: 10px;
+            background-color: #2b3a67;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .menu-toggle:hover {
+            background-color: #ffd700;
+            color: #0f0e29;
+        }
+        .article-description {
+            flex-grow: 1;
+            text-align: center;
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+        nav ul {
+            display: none;
+            list-style-type: none;
+            padding: 10px;
+            margin: 10px 0 0 0;
+            background-color: #1a1a2e;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            position: absolute;
+            top: 100%;
+            left: 10px;
+            width: 200px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        nav ul.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        nav ul li {
+            margin: 10px 0;
+            text-align: center;
+        }
+        nav ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 8px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #ffd700;
+            background-color: #2b3a67;
+            box-shadow: 0 0 8px #ffd700;
+        }
+        nav ul li a.active {
+            color: #ffd700;
+            background-color: #2b3a67;
+            border: 1px solid #ffd700;
+        }
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #2a2a4a;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        figure {
+            text-align: center;
+            margin: 20px 0;
+        }
+        img {
+            max-width: 100%;
+            width: 600px;
+            height: auto;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+        }
+        figcaption {
+            font-style: italic;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+        h2 {
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 1px solid #4a5d8c;
+            padding-bottom: 5px;
+        }
+        p {
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5em;
+            background-color: #0f0e29;
+            color: #e0e0e0;
+            border-top: 2px solid #ffd700;
+        }
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                width: 80%;
+                max-width: 300px;
+            }
+            img {
+                width: 100%;
+                max-width: 400px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            .article-description {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Imágenes de Harry Potter</h1>
+    </header>
+
+    <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <span class="article-description">Artículo 4: Galería de imágenes del universo mágico</span>
+        <ul id="nav-menu">
+            <li><a href="index_articulo1.html">Introducción</a></li>
+            <li><a href="historia_articulo2.html">Historia</a></li>
+            <li><a href="caracteristicas_articulo3.html">Características Clave</a></li>
+            <li><a href="imagenes_articulo4.html" class="active">Imágenes</a></li>
+            <li><a href="tablas_articulo5.html">Tablas</a></li>
+            <li><a href="formularios_articulo6.html">Formularios</a></li>
+            <li><a href="multimedia_articulo7.html">Multimedia</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section>
+            <h2>Galería del Mundo Mágico</h2>
+            <p>Explora una selección de imágenes que capturan la esencia del universo de *Harry Potter*. Desde el majestuoso castillo de Hogwarts hasta los icónicos objetos mágicos, estas imágenes te sumergirán en el mundo creado por J.K. Rowling.</p>
+            <figure>
+                <img src="https://www.postposmo.com/wp-content/uploads/2024/10/CastilloHarryPotter.jpg" alt="Castillo de Hogwarts" width="600">
+                <figcaption>El Imponente Castillo de Hogwarts, Hogar de los Estudiantes de Magia.</figcaption>
+            </figure>
+            <figure>
+                <img src="https://voldemorianos.com/wp-content/uploads/2024/09/%C2%BFComo-es-la-Varita-de-Hermione-Granger-800x798.png" alt="Varita mágica" width="600">
+                <figcaption>Una Varita Mágica, Esencial Para Cualquier Mago o Bruja.</figcaption>
+            </figure>
+            <figure>
+                <img src="https://www.aventurasnerd.com/wp-content/uploads/2024/07/unnamed-4-1.jpg" alt="Partido de Quidditch" width="600">
+                <figcaption>Un Emocionante Partido de Quidditch, el Deporte Mágico.</figcaption>
+            </figure>
+            <figure>
+                <img src="https://tse1.mm.bing.net/th/id/OIP.Vi6huGtNcpkCM6YCz2bGrgHaE7?cb=12&w=2393&h=1595&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Personajes de Harry Potter" width="600">
+                <figcaption>Harry Potter, Hermione Granger y Ron Weasley, Los Héroes de la Saga.</figcaption>
+        </section>
+    </main>
+
+    <footer>
+        <p>Creado Por Myrka N. Salazar Morales | 2025</p>
+        <p>Fuentes: <a href="https://www.wizardingworld.com">Wizarding World</a>, <a href="https://pixabay.com">Pixabay</a></p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Harry Potter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            color: #e0e0e0;
+        }
+        header {
+            background-color: #0f0e29;
+            color: #ffd700;
+            text-align: center;
+            padding: 2em;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 2px solid #ffd700;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        nav {
+            background-color: #2b3a67;
+            padding: 1em;
+            border-bottom: 1px solid #4a5d8c;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-toggle {
+            margin-left: 10px;
+            background-color: #2b3a67;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            padding: 8px 12px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .menu-toggle:hover {
+            background-color: #ffd700;
+            color: #0f0e29;
+        }
+        .article-description {
+            flex-grow: 1;
+            text-align: center;
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+        nav ul {
+            display: none;
+            list-style-type: none;
+            padding: 10px;
+            margin: 10px 0 0 0;
+            background-color: #1a1a2e;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            position: absolute;
+            top: 100%;
+            left: 10px;
+            width: 200px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        nav ul.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        nav ul li {
+            margin: 10px 0;
+            text-align: center;
+        }
+        nav ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 8px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #ffd700;
+            background-color: #2b3a67;
+            box-shadow: 0 0 8px #ffd700;
+        }
+        nav ul li a.active {
+            color: #ffd700;
+            background-color: #2b3a67;
+            border: 1px solid #ffd700;
+        }
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #2a2a4a;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        figure {
+            text-align: center;
+            margin: 0 0 20px 0;
+        }
+        img {
+            max-width: 100%;
+            width: 600px;
+            height: auto;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+        }
+        figcaption {
+            font-style: italic;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+        h2 {
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 1px solid #4a5d8c;
+            padding-bottom: 5px;
+        }
+        p {
+            margin: 15px 0;
+        }
+        form {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #e0e0e0;
+        }
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #4a5d8c;
+            border-radius: 5px;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+        }
+        button {
+            background-color: #2b3a67;
+            color: #ffd700;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ffd700;
+            color: #0f0e29;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5em;
+            background-color: #0f0e29;
+            color: #e0e0e0;
+            border-top: 2px solid #ffd700;
+        }
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                width: 80%;
+                max-width: 300px;
+            }
+            img {
+                width: 100%;
+                max-width: 400px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            .article-description {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quiz de Harry Potter</h1>
+    </header>
+
+    <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <span class="article-description">Artículo 6: Quiz interactivo sobre Harry Potter</span>
+        <ul id="nav-menu">
+            <li><a href="index_articulo1.html">Introducción</a></li>
+            <li><a href="historia_articulo2.html">Historia</a></li>
+            <li><a href="caracteristicas_articulo3.html">Características Clave</a></li>
+            <li><a href="imagenes_articulo4.html">Imágenes</a></li>
+            <li><a href="tablas_articulo5.html">Tablas</a></li>
+            <li><a href="formularios_articulo6.html" class="active">Formularios</a></li>
+            <li><a href="multimedia_articulo7.html">Multimedia</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <figure>
+            <img src="https://tse1.mm.bing.net/th/id/OIP.vpqYeZJ7FV5X_PwWG_gnegHaEK?cb=12&w=1920&h=1080&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Pergamino Mágico" width="600">
+            <figcaption>Un Pergamino Mágico, Inspirado en el Universo de Harry Potter.</figcaption>
+        </figure>
+
+        <section>
+            <h2>¿Cuánto sabes de Harry Potter?</h2>
+            <p>¡Pon a prueba tus conocimientos sobre el universo de *Harry Potter* con este quiz interactivo! Responde las preguntas a continuación y descubre si eres un verdadero experto en magia.</p>
+            <form>
+                <label for="casa">1. ¿Cuál es la casa de Hogwarts que valora el coraje?</label>
+                <input type="radio" name="casa" value="Gryffindor" id="gryffindor"> <label for="gryffindor">Gryffindor</label>
+                <input type="radio" name="casa" value="Hufflepuff" id="hufflepuff"> <label for="hufflepuff">Hufflepuff</label>
+                <input type="radio" name="casa" value="Ravenclaw" id="ravenclaw"> <label for="ravenclaw">Ravenclaw</label>
+                <input type="radio" name="casa" value="Slytherin" id="slytherin"> <label for="slytherin">Slytherin</label>
+
+                <label for="deporte">2. ¿Cuál es el nombre del deporte mágico jugado en escobas?</label>
+                <input type="text" id="deporte" name="deporte" placeholder="Escribe tu respuesta">
+
+                <label for="hechizo">3. ¿Qué hechizo invoca un Patronus para proteger contra los Dementores?</label>
+                <input type="radio" name="hechizo" value="Expelliarmus" id="expelliarmus"> <label for="expelliarmus">Expelliarmus</label>
+                <input type="radio" name="hechizo" value="Lumos" id="lumos"> <label for="lumos">Lumos</label>
+                <input type="radio" name="hechizo" value="Expecto Patronum" id="expecto"> <label for="expecto">Expecto Patronum</label>
+                <input type="radio" name="hechizo" value="Accio" id="accio"> <label for="accio">Accio</label>
+
+                <button type="submit">Enviar Respuestas</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>Creado Por Myrka N. Salazar Morales | 2025</p>
+        <p>Fuentes: <a href="https://www.wizardingworld.com">Wizarding World</a></p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimedia de Harry Potter</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background: linear-gradient(to bottom, #1a1a2e, #16213e);
+            color: #e0e0e0;
+        }
+        header {
+            background-color: #0f0e29;
+            color: #ffd700;
+            text-align: center;
+            padding: 2em;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 2px solid #ffd700;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        nav {
+            background-color: #2b3a67;
+            padding: 1em;
+            border-bottom: 1px solid #4a5d8c;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .menu-toggle {
+            background-color: #2b3a67;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .menu-toggle:hover {
+            background-color: #ffd700;
+            color: #0f0e29;
+        }
+        nav ul {
+            display: none;
+            list-style-type: none;
+            padding: 10px;
+            margin: 10px 0 0 0;
+            background-color: #1a1a2e;
+            border: 2px solid #ffd700;
+            border-radius: 5px;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        nav ul.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        nav ul li {
+            margin: 10px 0;
+            text-align: center;
+        }
+        nav ul li a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 8px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        nav ul li a:hover {
+            color: #ffd700;
+            background-color: #2b3a67;
+            box-shadow: 0 0 8px #ffd700;
+        }
+        nav ul li a.active {
+            color: #ffd700;
+            background-color: #2b3a67;
+            border: 1px solid #ffd700;
+        }
+        .article-description {
+            flex-grow: 1;
+            text-align: center;
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+        main {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #2a2a4a;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        figure {
+            text-align: center;
+            margin: 0 0 20px 0;
+        }
+        img {
+            max-width: 100%;
+            width: 600px;
+            height: auto;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+        }
+        figcaption {
+            font-style: italic;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+        h2 {
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            border-bottom: 1px solid #4a5d8c;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #ffd700;
+            font-family: 'Times New Roman', Times, serif;
+            margin-top: 20px;
+        }
+        p {
+            margin: 15px 0;
+        }
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        iframe {
+            width: 100%;
+            max-width: 400px;
+            height: 225px;
+            border: 3px solid #ffd700;
+            border-radius: 10px;
+        }
+        footer {
+            text-align: center;
+            padding: 1.5em;
+            background-color: #0f0e29;
+            color: #e0e0e0;
+            border-top: 2px solid #ffd700;
+        }
+        footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
+        @media (max-width: 768px) {
+            img {
+                width: 100%;
+                max-width: 400px;
+            }
+            iframe {
+                max-width: 100%;
+                height: 200px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            .article-description {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Multimedia de Harry Potter</h1>
+    </header>
+
+    <nav>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <span class="article-description">Artículo 7: Videos sobre Harry Potter</span>
+        <ul id="nav-menu">
+            <li><a href="index_articulo1.html">Introducción</a></li>
+            <li><a href="historia_articulo2.html">Historia</a></li>
+            <li><a href="caracteristicas_articulo3.html">Características Clave</a></li>
+            <li><a href="imagenes_articulo4.html">Imágenes</a></li>
+            <li><a href="tablas_articulo5.html">Tablas</a></li>
+            <li><a href="formularios_articulo6.html">Formularios</a></li>
+            <li><a href="multimedia_articulo7.html" class="active">Multimedia</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <figure>
+            <img src="https://webcdn.cox.com/content/dam/cox/residential/flex/images/photos/premium-channels/hbo/cox-max-harry-potter-collection-380x250.jpg" alt="Póster de Harry Potter" width="600">
+            <figcaption>Un póster icónico de las películas de Harry Potter.</figcaption>
+        </figure>
+
+        <section>
+            <h2>Contenido Multimedia Seleccionado</h2>
+            <p>Sumérgete en la magia del universo de *Harry Potter* con esta selección de videos. Incluye trailers oficiales, teorías fascinantes de fans y explicaciones sobre el final de la saga. Todos los videos son de canales confiables en YouTube y están incrustados de manera segura para que puedas verlos directamente en esta página.</p>
+
+            <h3>Trailers Oficiales</h3>
+            <p>Revive la emoción de las películas con estos trailers oficiales del canal de Harry Potter.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/VyHV0BRtdxo" title="Trailer de Harry Potter and the Philosopher’s Stone" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/LLAaW1EgyY8" title="Trailer de Harry Potter and the Order of the Phoenix" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/w81GvNtsKp8" title="Compilación de Trailers de Harry Potter" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>Teorías de Fans</h3>
+            <p>Explora algunas de las teorías más intrigantes y populares sobre el universo de *Harry Potter* de canales dedicados como Harry Potter Theory.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/HnaGgzbEQs4" title="Top 5 CREEPIEST Harry Potter Theories" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/xNo3-9C86iw" title="20 DARKEST Harry Potter Theories (MEGA COMPILATION)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/w6cvgfW6TbE" title="Top 10 Harry Potter Theories of 2024 (Compilation)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>Explicaciones del Final</h3>
+            <p>Analiza el épico final de la saga con estas explicaciones detalladas sobre el desenlace de *Harry Potter*.</p>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/TufKf5Um3Zs" title="The Ending Of Harry Potter Finally Explained" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/Ek2q6BIJUl0" title="Every MAJOR Event That Took Place After The Deathly Hallows Explained" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/UXBJ7AUaONM" title="This DARK Theory Completely Flips Harry Potter's Ending - Harry Potter Theory" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Creado Por Myrka N. Salazar Morales | 2025</p>
+        <p>Fuentes: <a href="https://www.youtube.com/@harrypotter">YouTube - Canal Oficial de Harry Potter</a>, <a href="https://www.youtube.com/@HarryPotterTheory">YouTube - Harry Potter Theory</a>, <a href="https://www.wizardingworld.com">Wizarding World</a></p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+        document.querySelectorAll('#nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
