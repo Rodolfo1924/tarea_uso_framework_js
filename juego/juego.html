@@ -94,10 +94,7 @@
       this.bird.setOrigin(0.5);              // Centro del sprite
 
       // Escalar automáticamente el pájaro para que mida aprox. 50px
-      const desiredSize = 70; // tamaño aproximado objetivo en px
-      let scaleFactor = Math.min(desiredSize / this.bird.width, desiredSize / this.bird.height);
-      // Limita el escalado para que no sea demasiado pequeño ni demasiado grande
-      scaleFactor = Phaser.Math.Clamp(scaleFactor, 0.8, 1.4);
+      const scaleFactor = Math.min(120 / this.bird.width, 70 / this.bird.height);
       this.bird.setScale(scaleFactor);
 
       /* --- Crear suelo invisible (colisión) --- */
@@ -261,3 +258,4 @@
   </script>
 </body>
 </html>
+
