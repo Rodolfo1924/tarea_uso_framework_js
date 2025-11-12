@@ -6,209 +6,270 @@
   <title>Flappy Bird Personalizado - Phaser 3</title>
 
   <style>
+    /* --- Estilos generales del documento --- */
     html, body {
-      height: 100%;
-      margin: 0;
-      background: #70c5ce;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      height: 100%;              /* Ocupa toda la altura de la ventana */
+      margin: 0;                 /* Elimina márgenes por defecto */
+      background: #70c5ce;       /* Color azul cielo de fondo */
+      display: flex;             /* Flexbox para centrar contenido */
+      justify-content: center;   /* Centrado horizontal */
+      align-items: center;       /* Centrado vertical */
     }
 
+    /* Contenedor principal del juego */
     #gameContainer {
-      width: 100%;
-      max-width: 964px;
-      aspect-ratio: 16 / 9;
-      border: 3px solid #fff;
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.4);
-      overflow: hidden;
+      width: 964px;              /* Ancho fijo del área de juego */
+      height: 544px;             /* Alto fijo del área de juego */
+      border: 3px solid #fff;    /* Borde blanco */
+      border-radius: 12px;       /* Bordes redondeados */
+      box-shadow: 0 0 30px rgba(0,0,0,0.4); /* Sombra para efecto visual */
+      overflow: hidden;          /* Oculta cualquier desbordamiento */
     }
 
+    /* Configuración para que los píxeles del canvas se vean nítidos */
     canvas {
-      image-rendering: pixelated;
-      display: block;
-      width: 100% !important;
-      height: 100% !important;
+      image-rendering: pixelated; /* Evita suavizado de imágenes */
+      display: block;             /* Elimina espacios extra */
     }
   </style>
 
+  <!-- Carga del motor Phaser 3 desde un CDN -->
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
 </head>
 <body>
+  <!-- Contenedor donde se renderizará el juego -->
   <div id="gameContainer"></div>
 
   <script>
-    const WIDTH = Math.min(window.innerWidth, 964);
-    const HEIGHT = Math.floor(WIDTH * 9 / 16);
+  /* ===========================================
+     CONFIGURACIÓN BÁSICA DEL JUEGO
+  ============================================ */
+  const WIDTH = 964;   // Ancho del área de juego
+  const HEIGHT = 544;  // Alto del área de juego
 
-    class MainScene extends Phaser.Scene {
-      constructor() { super('MainScene'); }
+  /* ===========================================
+     ESCENA PRINCIPAL DEL JUEGO
+  ============================================ */
+  class MainScene extends Phaser.Scene {
+    constructor() { 
+      super('MainScene'); // Nombre interno de la escena
+    }
 
-      preload() {
-        this.load.image('fondo', 'fondo.png');
-        this.load.image('bird', 'pajaro.png');
+    /* --- Preload: carga de recursos antes de iniciar el juego --- */
+    preload() {
+      this.load.image('fondo', 'fondo.png');   // Carga la imagen de fondo
+      this.load.image('bird', 'pajaro.png');   // Carga la imagen del pájaro
+    }
+
+    /* --- Create: configuración inicial del juego --- */
+    create() {
+      // Fondo centrado y ajustado al tamaño del área de juego
+      const bg = this.add.image(WIDTH / 2, HEIGHT / 2, 'fondo');
+      bg.setDisplaySize(WIDTH, HEIGHT);
+
+      // Crear un objeto gráfico temporal para dibujar figuras (tubos y suelo)
+      const g = this.add.graphics();
+
+      /* --- Creación del tubo como textura reutilizable --- */
+      g.fillStyle(0x3bb54a, 1);     // Color verde claro
+      g.fillRect(0, 0, 80, 600);    // Rectángulo que simula el tubo
+      g.fillStyle(0x2f8a3a, 1);     // Color verde oscuro (borde superior)
+      g.fillRect(0, 0, 80, 24);
+      g.generateTexture('pipe', 80, 600); // Guarda la textura con nombre 'pipe'
+      g.clear(); // Limpia el gráfico temporal
+
+      /* --- Creación del suelo como textura --- */
+      g.fillStyle(0x8b5a2b, 1);     // Color marrón
+      g.fillRect(0, 0, WIDTH, 64);  // Rectángulo que simula el suelo
+      g.generateTexture('ground', WIDTH, 64); // Guarda la textura 'ground'
+      g.clear();
+
+      /* --- Activar la física del mundo --- */
+      this.physics.world.setBounds(0, 0, WIDTH, HEIGHT);
+
+      /* --- Creación del pájaro --- */
+      this.bird = this.physics.add.sprite(80, HEIGHT / 2, 'bird'); // Sprite con físicas
+      this.bird.setCollideWorldBounds(true); // No puede salir del área de juego
+      this.bird.setGravityY(850);            // Gravedad hacia abajo
+      this.bird.setOrigin(0.5);              // Centro del sprite como punto de referencia
+
+      // Escalar automáticamente el pájaro para que mida aprox. 50px
+      const scaleFactor = Math.min(120 / this.bird.width, 70 / this.bird.height);
+      this.bird.setScale(scaleFactor);
+
+      // Disminuir el hitbox del pájaro
+      this.bird.body.setSize(60, 40, true); // hitbox más pequeño y centrado
+
+      /* --- Crear suelo invisible para colisión --- */
+      this.ground = this.physics.add.staticImage(WIDTH / 2, HEIGHT - 32, 'ground');
+      this.ground.visible = false; // No se muestra, solo sirve como límite inferior
+
+      /* --- Grupo de tubos --- */
+      this.pipes = this.physics.add.group();
+
+      /* --- Controles del jugador --- */
+      this.input.on('pointerdown', this.flap, this); // Click/tap → volar
+      this.input.keyboard.on('keydown-SPACE', this.flap, this); // Tecla ESPACIO → volar
+
+      /* --- Temporizador para generar tubos continuamente --- */
+      this.pipeTimer = this.time.addEvent({
+        delay: 1300,            // Cada 1.3 segundos
+        callback: this.spawnPipes,  // Función que genera tubos
+        callbackScope: this,
+        loop: true               // Se repite indefinidamente
+      });
+
+      /* --- Colisiones --- */
+      this.physics.add.collider(this.bird, this.pipes, this.onGameOver, null, this);
+      this.physics.add.collider(this.bird, this.ground, this.onGameOver, null, this);
+
+      /* --- Estado inicial del juego --- */
+      this.isAlive = true; // Controla si el jugador sigue vivo
+
+      /* --- Texto inicial --- */
+      this.instruction = this.add.text(WIDTH / 2, HEIGHT / 2 - 40, 'Toca o presiona ESPACIO para volar', {
+        font: '18px Arial', fill: '#fff'
+      }).setOrigin(0.5);
+    }
+
+    /* --- Acción de aletear (volar) --- */
+    flap() {
+      if (!this.isAlive) {
+        // Si está muerto, reinicia el juego
+        this.scene.restart();
+        return;
       }
 
-      create() {
-        const bg = this.add.image(WIDTH / 2, HEIGHT / 2, 'fondo');
-        bg.setDisplaySize(WIDTH, HEIGHT);
+      // Impulsa al pájaro hacia arriba
+      this.bird.setVelocityY(-330);
 
-        const g = this.add.graphics();
-        g.fillStyle(0x3bb54a, 1);
-        g.fillRect(0, 0, 80, 600);
-        g.fillStyle(0x2f8a3a, 1);
-        g.fillRect(0, 0, 80, 24);
-        g.generateTexture('pipe', 80, 600);
-        g.clear();
+      // Cancelar animaciones previas
+      this.tweens.killTweensOf(this.bird);
 
-        g.fillStyle(0x8b5a2b, 1);
-        g.fillRect(0, 0, WIDTH, 64);
-        g.generateTexture('ground', WIDTH, 64);
-        g.clear();
+      // Inclina el pájaro hacia arriba brevemente
+      this.tweens.add({
+        targets: this.bird,
+        angle: -20,
+        duration: 80,
+        ease: 'Power0'
+      });
 
-        this.physics.world.setBounds(0, 0, WIDTH, HEIGHT);
-
-        this.bird = this.physics.add.sprite(80, HEIGHT / 2, 'bird');
-        this.bird.setCollideWorldBounds(true);
-        this.bird.setGravityY(850);
-        this.bird.setOrigin(0.5);
-
-        const scaleFactor = Math.min(120 / this.bird.width, 70 / this.bird.height);
-        this.bird.setScale(scaleFactor);
-
-        this.ground = this.physics.add.staticImage(WIDTH / 2, HEIGHT - 32, 'ground');
-        this.ground.visible = false;
-
-        this.pipes = this.physics.add.group();
-
-        this.input.on('pointerdown', this.flap, this);
-        this.input.keyboard.on('keydown-SPACE', this.flap, this);
-
-        this.pipeTimer = this.time.addEvent({
-          delay: 1300,
-          callback: this.spawnPipes,
-          callbackScope: this,
-          loop: true
-        });
-
-        this.physics.add.collider(this.bird, this.pipes, this.onGameOver, null, this);
-        this.physics.add.collider(this.bird, this.ground, this.onGameOver, null, this);
-
-        this.isAlive = true;
-
-        this.instruction = this.add.text(WIDTH / 2, HEIGHT / 2 - 40, 'Toca o presiona ESPACIO para volar', {
-          font: '18px Arial', fill: '#fff'
-        }).setOrigin(0.5);
-      }
-
-      flap() {
-        if (!this.isAlive) {
-          this.scene.restart();
-          return;
-        }
-
-        this.bird.setVelocityY(-330);
-        this.tweens.killTweensOf(this.bird);
-
-        this.tweens.add({
-          targets: this.bird,
-          angle: -20,
-          duration: 80,
-          ease: 'Power0'
-        });
-
-        if (this.instruction) {
-          this.instruction.destroy();
-          this.instruction = null;
-        }
-      }
-
-      spawnPipes() {
-        if (!this.isAlive) return;
-
-        const gap = 150;
-        const topMin = 80;
-        const bottomMin = 80;
-        const maxTop = HEIGHT - gap - bottomMin - 64;
-
-        const topHeight = Phaser.Math.Between(topMin, Math.max(topMin, maxTop));
-        const x = WIDTH + 40;
-
-        const topPipe = this.pipes.create(x, topHeight / 2, 'pipe');
-        topPipe.displayHeight = topHeight;
-        topPipe.displayWidth = 80;
-        topPipe.body.allowGravity = false;
-        topPipe.setImmovable(true);
-        topPipe.setVelocityX(-180);
-        topPipe.flipY = true;
-
-        const bottomHeight = (HEIGHT - 64) - topHeight - gap;
-        const bottomY = topHeight + gap + bottomHeight / 2;
-        const botPipe = this.pipes.create(x, bottomY, 'pipe');
-        botPipe.displayHeight = bottomHeight;
-        botPipe.displayWidth = 80;
-        botPipe.body.allowGravity = false;
-        botPipe.setImmovable(true);
-        botPipe.setVelocityX(-180);
-      }
-
-      update() {
-        if (!this.isAlive) return;
-
-        if (this.bird.body.velocity.y > 0) {
-          const t = Phaser.Math.Clamp(this.bird.body.velocity.y / 600, 0, 1);
-          this.bird.angle = Phaser.Math.Linear(-20, 60, t);
-        }
-
-        if (this.bird.y < -50) {
-          this.onGameOver();
-        }
-      }
-
-      onGameOver() {
-        if (!this.isAlive) return;
-        this.isAlive = false;
-
-        this.pipes.getChildren().forEach(p => {
-          if (p.body) p.body.setVelocityX(0);
-        });
-        this.pipeTimer.remove(false);
-
-        this.add.text(WIDTH / 2, HEIGHT / 2 - 10, '¡Fin del juego!', {
-          font: '32px Arial', fill: '#fff'
-        }).setOrigin(0.5);
-        this.add.text(WIDTH / 2, HEIGHT / 2 + 30, 'Toca para reiniciar', {
-          font: '18px Arial', fill: '#fff'
-        }).setOrigin(0.5);
-
-        this.bird.setVelocityY(250);
-        this.tweens.add({
-          targets: this.bird,
-          angle: 90,
-          duration: 600,
-          ease: 'Power1'
-        });
+      // Quita el texto de instrucciones al primer toque
+      if (this.instruction) {
+        this.instruction.destroy();
+        this.instruction = null;
       }
     }
 
-    const config = {
-      type: Phaser.AUTO,
-      width: WIDTH,
-      height: HEIGHT,
-      parent: 'gameContainer',
-      physics: { default: 'arcade', arcade: { debug: false } },
-      scene: [MainScene],
-      scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH }
-    };
+    /* --- Generación de tubos --- */
+    spawnPipes() {
+      if (!this.isAlive) return; // No generar si el juego terminó
 
-    const game = new Phaser.Game(config);
+      const gap = 150; // Espacio entre los tubos
+      const topMin = 80; // Altura mínima del tubo superior
+      const bottomMin = 80; // Altura mínima del inferior
+      const maxTop = HEIGHT - gap - bottomMin - 64; // Límite superior del hueco
 
-    window.addEventListener('resize', () => {
-      const newWidth = Math.min(window.innerWidth, 964);
-      const newHeight = Math.floor(newWidth * 9 / 16);
-      game.scale.resize(newWidth, newHeight);
-    });
+      // Altura aleatoria del tubo superior
+      const topHeight = Phaser.Math.Between(topMin, Math.max(topMin, maxTop));
+      const x = WIDTH + 40; // Posición inicial (fuera de la pantalla)
+
+      /* --- Tubo superior --- */
+      const topPipe = this.pipes.create(x, topHeight / 2, 'pipe');
+      topPipe.displayHeight = topHeight;
+      topPipe.displayWidth = 80;
+      topPipe.body.allowGravity = false;
+      topPipe.setImmovable(true);
+      topPipe.setVelocityX(-180); // Se mueve hacia la izquierda
+      topPipe.flipY = true;       // Volteado para estar boca abajo
+
+      /* --- Tubo inferior --- */
+      const bottomHeight = (HEIGHT - 64) - topHeight - gap;
+      const bottomY = topHeight + gap + bottomHeight / 2;
+      const botPipe = this.pipes.create(x, bottomY, 'pipe');
+      botPipe.displayHeight = bottomHeight;
+      botPipe.displayWidth = 80;
+      botPipe.body.allowGravity = false;
+      botPipe.setImmovable(true);
+      botPipe.setVelocityX(-180); // También se mueve hacia la izquierda
+    }
+
+    /* --- Lógica de actualización por fotograma --- */
+    update() {
+      if (!this.isAlive) return; // Si el juego terminó, no actualiza nada
+
+      // Rotación del pájaro según su velocidad vertical (efecto de caída)
+      if (this.bird.body.velocity.y > 0) {
+        // Normaliza la velocidad vertical en un rango [0,1]
+        const t = Phaser.Math.Clamp(this.bird.body.velocity.y / 600, 0, 1);
+        // Interpola el ángulo del pájaro entre -20° (subiendo) y 60° (cayendo)
+        this.bird.angle = Phaser.Math.Linear(-20, 60, t);
+      }
+
+      // Si el pájaro sale por arriba de la pantalla → perder
+      if (this.bird.y < -50) {
+        this.onGameOver();
+      }
+    }
+
+    /* --- Fin del juego --- */
+    onGameOver() {
+      if (!this.isAlive) return; // Evita múltiples ejecuciones
+      this.isAlive = false;      // Marca que el jugador está muerto
+
+      // Detiene el movimiento de los tubos
+      this.pipes.getChildren().forEach(p => {
+        if (p.body) p.body.setVelocityX(0);
+      });
+
+      // Detiene el temporizador que genera tubos
+      this.pipeTimer.remove(false);
+
+      // Muestra mensaje de "Fin del juego" y "Toca para reiniciar"
+      this.add.text(WIDTH / 2, HEIGHT / 2 - 10, '¡Fin del juego!', {
+        font: '32px Arial', fill: '#fff'
+      }).setOrigin(0.5);
+
+      this.add.text(WIDTH / 2, HEIGHT / 2 + 30, 'Toca para reiniciar', {
+        font: '18px Arial', fill: '#fff'
+      }).setOrigin(0.5);
+
+      // Hace que el pájaro caiga y se incline hacia abajo
+      this.bird.setVelocityY(250); // Empuja hacia abajo
+      this.tweens.add({
+        targets: this.bird,
+        angle: 90,          // Ángulo hacia abajo
+        duration: 600,      // Animación en 0.6 segundos
+        ease: 'Power1'      // Curva de animación suave
+      });
+    }
+  }
+
+    /* ===========================================
+     CONFIGURACIÓN DEL JUEGO
+  ============================================ */
+  const config = {
+    type: Phaser.AUTO, // Phaser elige automáticamente WebGL o Canvas según soporte
+    width: WIDTH,      // Ancho del área de juego
+    height: HEIGHT,    // Alto del área de juego
+    parent: 'gameContainer', // El juego se dibuja dentro del div con id="gameContainer"
+    
+    // Configuración de físicas
+    physics: { 
+      default: 'arcade', // Motor de físicas Arcade (simple y rápido)
+      arcade: { debug: false } // Debug desactivado (no muestra colisiones en pantalla)
+    }, 
+    
+    scene: [MainScene], // Escena principal que se ejecutará
+    scale: { 
+      mode: Phaser.Scale.FIT,           // Ajusta el juego al contenedor
+      autoCenter: Phaser.Scale.CENTER_BOTH // Centra automáticamente en pantalla
+    }
+  };
+
+  /* --- Inicia el juego con la configuración anterior --- */
+  const game = new Phaser.Game(config);
   </script>
 </body>
+
 </html>
