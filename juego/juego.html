@@ -113,7 +113,7 @@
 
       /* --- Temporizador para generar tubos continuamente --- */
       this.pipeTimer = this.time.addEvent({
-        delay: 1800,            // Cada 1.8 segundos (más separación horizontal)
+        delay: 1600,            // Cada 1.8 segundos (más separación horizontal)
         callback: this.spawnPipes,  // Función que genera tubos
         callbackScope: this,
         loop: true               // Se repite indefinidamente
@@ -165,7 +165,7 @@
     spawnPipes() {
       if (!this.isAlive) return; // No generar si el juego terminó
 
-      const gap = 220; // Espacio entre los tubos (más grande para mayor facilidad)
+      const gap = 150; // Espacio entre los tubos
       const topMin = 80; // Altura mínima del tubo superior
       const bottomMin = 80; // Altura mínima del inferior
       const maxTop = HEIGHT - gap - bottomMin - 64; // Límite superior del hueco
@@ -273,3 +273,4 @@
 </body>
 
 </html>
+
