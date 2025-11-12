@@ -18,18 +18,29 @@
 
     /* Contenedor principal del juego */
     #gameContainer {
-      width: 964px;              /* Ancho fijo del área de juego */
-      height: 544px;             /* Alto fijo del área de juego */
+      width: 100vw;              /* Ocupa todo el ancho de la ventana */
+      height: 100vh;             /* Ocupa todo el alto de la ventana */
+      max-width: 964px;          /* Máximo ancho para desktop */
+      max-height: 544px;         /* Máximo alto para desktop */
       border: 3px solid #fff;    /* Borde blanco */
       border-radius: 12px;       /* Bordes redondeados */
       box-shadow: 0 0 30px rgba(0,0,0,0.4); /* Sombra para efecto visual */
       overflow: hidden;          /* Oculta cualquier desbordamiento */
+      position: relative;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     /* Configuración para que los píxeles del canvas se vean nítidos */
     canvas {
       image-rendering: pixelated; /* Evita suavizado de imágenes */
       display: block;             /* Elimina espacios extra */
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100vw;
+      max-height: 100vh;
     }
   </style>
 
@@ -283,7 +294,7 @@
     
     scene: [MainScene], // Escena principal que se ejecutará
     scale: { 
-      mode: Phaser.Scale.FIT,           // Ajusta el juego al contenedor
+      mode: Phaser.Scale.RESIZE,           // Permite que el juego se adapte a cualquier tamaño
       autoCenter: Phaser.Scale.CENTER_BOTH // Centra automáticamente en pantalla
     }
   };
