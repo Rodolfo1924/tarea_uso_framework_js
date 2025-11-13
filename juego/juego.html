@@ -8,7 +8,7 @@
   <style>
     /* --- Estilos generales del documento --- */
     html, body {
-      height: 100%;              /* Ocupa toda la altura de la ventana */
+      height: 70%;              /* Ocupa toda la altura de la ventana */
       margin: 0;                 /* Elimina márgenes por defecto */
       background: #000000;       /* Color de fondo */
       display: flex;             /* Flexbox para centrar contenido */
@@ -125,7 +125,7 @@
 
       /* --- Temporizador para generar tubos continuamente --- */
       this.pipeTimer = this.time.addEvent({
-        delay: 1600,            // Cada 1.8 segundos (más separación horizontal)
+        delay: 1600,            // Cada 1.6 segundos (más separación horizontal)
         callback: this.spawnPipes,  // Función que genera tubos
         callbackScope: this,
         loop: true               // Se repite indefinidamente
@@ -290,7 +290,7 @@
     // Configuración de físicas
     physics: { 
       default: 'arcade', // Motor de físicas Arcade (simple y rápido)
-      arcade: { debug: false } // Debug desactivado (no muestra colisiones en pantalla)
+      arcade: { debug: true } // Debug desactivado (no muestra colisiones en pantalla)
     }, 
     
     scene: [MainScene], // Escena principal que se ejecutará
@@ -311,3 +311,4 @@
 </body>
 
 </html>
+
